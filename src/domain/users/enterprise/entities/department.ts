@@ -1,28 +1,23 @@
 import { Entity } from '@/core/entities/entity'
-import { VariationSKU } from './value-objects/variation-SKU'
-import { Name } from '../../../../core/entities/name'
-import { Optional } from '@/core/types/optional'
+import { Name } from '@/core/entities/name'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DepartmentRolesList } from './department-roles-list'
+import { Optional } from '@/core/types/optional'
 
-export interface VariationProps {
+export interface DepartmentProps {
   name: Name
-  variationSKU: VariationSKU
-  isActive: boolean
+  roles: DepartmentRolesList
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Variation extends Entity<VariationProps> {
+export class Department extends Entity<DepartmentProps> {
   get name() {
     return this.props.name
   }
 
-  get SKU() {
-    return this.props.variationSKU
-  }
-
-  get isActive() {
-    return this.props.isActive
+  get roles() {
+    return this.props.roles
   }
 
   get createdAt() {
@@ -38,8 +33,9 @@ export class Variation extends Entity<VariationProps> {
     this.touch()
   }
 
-  set isActive(value: boolean) {
-    this.props.isActive = value
+  set roles(value: DepartmentRolesList) {
+    this.props.roles = value
+    this.touch()
   }
 
   private touch() {
@@ -47,13 +43,13 @@ export class Variation extends Entity<VariationProps> {
   }
 
   static create(
-    props: Optional<VariationProps, 'createdAt'>,
+    props: Optional<DepartmentProps, 'createdAt'>,
     id?: UniqueEntityID,
   ) {
-    const variation = new Variation(
+    const department = new Department(
       { ...props, createdAt: props.createdAt ?? new Date() },
       id,
     )
-    return variation
+    return department
   }
 }

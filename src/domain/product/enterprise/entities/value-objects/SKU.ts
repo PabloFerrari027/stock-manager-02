@@ -1,6 +1,9 @@
 export interface SKUProps {
   prefix: string
+  department: string
+  year: string
   sequential: number
+  variation?: number
 }
 
 export class SKU {
@@ -10,14 +13,32 @@ export class SKU {
     this.value = value
   }
 
-  static create({ prefix, sequential }: SKUProps) {
-    let value = `${prefix.toUpperCase()}`
+  static create(props: SKUProps) {
+    const prefix = props.prefix.substring(0, 2)
 
-    if (sequential < 10) value += `00${sequential}`
-    else if (sequential < 100) value += `0${sequential}`
-    else value += `${sequential}`
+    const department = props.department.substring(0, 1)
 
-    const sku = new SKU(value)
+    const year = props.year.substring(0, 2)
+
+    const sequential = props.sequential
+
+    const variation = props.variation
+
+    let value = `${prefix}${department}${year}`
+
+    if (sequential < 10) {
+      value += `0${sequential}`
+    } else {
+      value += `${sequential}`
+    }
+
+    if (variation && variation < 10) {
+      value += `.0${variation.toString().substring(0, 2)}`
+    } else if (variation) {
+      value += `.${variation.toString().substring(0, 2)}`
+    }
+
+    const sku = new SKU(value.toUpperCase())
 
     return sku
   }

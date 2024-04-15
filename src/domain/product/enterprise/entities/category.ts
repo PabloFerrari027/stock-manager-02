@@ -1,36 +1,28 @@
 import { Entity } from '@/core/entities/entity'
-import { VariationSKU } from './value-objects/variation-SKU'
 import { Name } from '../../../../core/entities/name'
-import { Optional } from '@/core/types/optional'
+import { CategoryTypesList } from './category-types-list'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Optional } from '@/core/types/optional'
 
-export interface VariationProps {
+export interface CategoryProps {
   name: Name
-  variationSKU: VariationSKU
   isActive: boolean
+  types: CategoryTypesList
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Variation extends Entity<VariationProps> {
+export class Category extends Entity<CategoryProps> {
   get name() {
     return this.props.name
-  }
-
-  get SKU() {
-    return this.props.variationSKU
   }
 
   get isActive() {
     return this.props.isActive
   }
 
-  get createdAt() {
-    return this.props.createdAt
-  }
-
-  get updatedAt() {
-    return this.props.updatedAt
+  get types() {
+    return this.props.types
   }
 
   set name(value: Name) {
@@ -40,6 +32,12 @@ export class Variation extends Entity<VariationProps> {
 
   set isActive(value: boolean) {
     this.props.isActive = value
+    this.touch()
+  }
+
+  set types(value: CategoryTypesList) {
+    this.props.types = value
+    this.touch()
   }
 
   private touch() {
@@ -47,13 +45,14 @@ export class Variation extends Entity<VariationProps> {
   }
 
   static create(
-    props: Optional<VariationProps, 'createdAt'>,
+    props: Optional<CategoryProps, 'createdAt'>,
     id?: UniqueEntityID,
   ) {
-    const variation = new Variation(
+    const category = new Category(
       { ...props, createdAt: props.createdAt ?? new Date() },
       id,
     )
-    return variation
+
+    return category
   }
 }
