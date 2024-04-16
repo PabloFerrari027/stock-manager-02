@@ -1,20 +1,15 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '@/core/entities/name'
+import { Text } from '@/core/entities/text'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface SupplierProps {
-  code: string
-  name: Name
+  name: Text
   createdAt: Date
   updatedAt?: Date
 }
 
 export class Supplier extends Entity<SupplierProps> {
-  get code() {
-    return this.props.code
-  }
-
   get name() {
     return this.props.name
   }
@@ -27,12 +22,7 @@ export class Supplier extends Entity<SupplierProps> {
     return this.props.updatedAt
   }
 
-  set code(value: string) {
-    this.props.code = value
-    this.touch()
-  }
-
-  set name(value: Name) {
+  set name(value: Text) {
     this.props.name = value
     this.touch()
   }
@@ -46,7 +36,11 @@ export class Supplier extends Entity<SupplierProps> {
     id?: UniqueEntityID,
   ) {
     const supplier = new Supplier(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return supplier

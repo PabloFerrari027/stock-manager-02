@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '../../../../core/entities/name'
+import { Name } from '../../../../core/entities/text'
 import { TypeLevelsList } from './type-levels-list'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
@@ -46,7 +46,11 @@ export class Type extends Entity<TypeProps> {
 
   static create(props: Optional<TypeProps, 'createdAt'>, id?: UniqueEntityID) {
     const type = new Type(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return type

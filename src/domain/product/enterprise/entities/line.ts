@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '../../../../core/entities/name'
+import { Name } from '../../../../core/entities/text'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
@@ -35,7 +35,11 @@ export class Line extends Entity<LineProps> {
 
   static create(props: Optional<LineProps, 'createdAt'>, id?: UniqueEntityID) {
     const line = new Line(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return line

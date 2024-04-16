@@ -7,7 +7,11 @@ export interface TrimsProps extends MaterialProps {}
 export class Trims extends Material {
   static create(props: Optional<TrimsProps, 'createdAt'>, id?: UniqueEntityID) {
     const trim = new Trims(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return trim

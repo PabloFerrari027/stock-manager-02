@@ -1,22 +1,17 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '@/core/entities/name'
+import { Text } from '@/core/entities/text'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface MaterialProps {
-  code: string
-  name: Name
-  unit: string
+  name: Text
+  unit: Text
   supplierId: UniqueEntityID
   createdAt: Date
   updatedAt?: Date
 }
 
 export class Material extends Entity<MaterialProps> {
-  get code() {
-    return this.props.code
-  }
-
   get name() {
     return this.props.name
   }
@@ -37,17 +32,12 @@ export class Material extends Entity<MaterialProps> {
     return this.props.updatedAt
   }
 
-  set code(value: string) {
-    this.props.code = value
-    this.touch()
-  }
-
-  set name(value: Name) {
+  set name(value: Text) {
     this.props.name = value
     this.touch()
   }
 
-  set unit(value: string) {
+  set unit(value: Text) {
     this.props.unit = value
     this.touch()
   }
@@ -66,7 +56,11 @@ export class Material extends Entity<MaterialProps> {
     id?: UniqueEntityID,
   ) {
     const material = new Material(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return material

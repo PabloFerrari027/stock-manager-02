@@ -10,7 +10,11 @@ export class FeedStock extends Material {
     id?: UniqueEntityID,
   ) {
     const trim = new FeedStock(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return trim

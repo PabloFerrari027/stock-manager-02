@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '../../../../core/entities/name'
+import { Name } from '../../../../core/entities/text'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
@@ -55,7 +55,11 @@ export class Level extends Entity<LevelProps> {
 
   static create(props: Optional<LevelProps, 'createdAt'>, id?: UniqueEntityID) {
     const level = new Level(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return level

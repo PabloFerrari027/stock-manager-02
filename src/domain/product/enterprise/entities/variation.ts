@@ -1,6 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import { VariationSKU } from './value-objects/variation-SKU'
-import { Name } from '../../../../core/entities/name'
+import { Name } from '../../../../core/entities/text'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
@@ -51,7 +51,11 @@ export class Variation extends Entity<VariationProps> {
     id?: UniqueEntityID,
   ) {
     const variation = new Variation(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return variation

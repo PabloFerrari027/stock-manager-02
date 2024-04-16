@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '../../../../core/entities/name'
+import { Name } from '../../../../core/entities/text'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
@@ -38,7 +38,11 @@ export class Collection extends Entity<CollectionProps> {
     id?: UniqueEntityID,
   ) {
     const collection = new Collection(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return collection

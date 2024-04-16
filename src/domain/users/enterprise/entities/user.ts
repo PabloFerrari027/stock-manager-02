@@ -1,10 +1,10 @@
 import { Entity } from '@/core/entities/entity'
-import { Name } from '@/core/entities/name'
+import { Text } from '@/core/entities/text'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface UserProps {
-  name: Name
+  name: Text
   email: string
   authProvider: string
   departmentId: UniqueEntityID
@@ -42,7 +42,7 @@ export class User extends Entity<UserProps> {
     return this.props.updatedAt
   }
 
-  set name(value: Name) {
+  set name(value: Text) {
     this.props.name = value
     this.touch()
   }
@@ -73,7 +73,11 @@ export class User extends Entity<UserProps> {
 
   static create(props: Optional<UserProps, 'createdAt'>, id?: UniqueEntityID) {
     const user = new User(
-      { ...props, createdAt: props.createdAt ?? new Date() },
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
       id,
     )
     return user
