@@ -2,7 +2,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { FindRole } from './find-role'
 import { container } from 'tsyringe'
-import { makeRole } from 'test/factories/make-role'
+import { makeRole } from 'test/factories/users/make-role'
 import { RolesRepository } from '../../repositories/roles-repository'
 
 let findRole: FindRole
@@ -10,7 +10,7 @@ let rolesRepository: RolesRepository
 
 describe('Find Role', () => {
   beforeEach(() => {
-    rolesRepository = MakeAllRepositories.RolesRepository
+    rolesRepository = MakeAllRepositories.users.RolesRepository
     findRole = container.resolve(FindRole)
   })
 

@@ -1,7 +1,7 @@
 import { container, injectable } from 'tsyringe'
-import { SuppliersRepository } from '../repositories/supplier-repository'
+import { SuppliersRepository } from '../repositories/suppliers-repository'
 import { NotImplementedError } from '@/core/errors/not-implemented-error'
-import { InMemorySuppliersRepository } from 'test/repositories/in-memory-suppliers-repository'
+import { InMemorySuppliersRepository } from 'test/repositories/materials/in-memory-suppliers-repository'
 
 interface MakeSuppliersRepositoryProps {
   stage: 'in memory' | 'database'

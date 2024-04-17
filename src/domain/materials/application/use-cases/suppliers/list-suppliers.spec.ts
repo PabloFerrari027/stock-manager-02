@@ -1,9 +1,9 @@
-import { SuppliersRepository } from '@/domain/materials/application/repositories/supplier-repository'
+import { SuppliersRepository } from '@/domain/materials/application/repositories/suppliers-repository'
 import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { ListSuppliers } from './list-suppliers'
 import { container } from 'tsyringe'
-import { makeSupplier } from 'test/factories/make-supplier'
+import { makeSupplier } from 'test/factories/materials/make-supplier'
 import { Supplier } from '../../../enterprise/entities/supplier'
 import { Text } from '@/core/entities/text'
 
@@ -12,7 +12,7 @@ let suppliersRepository: SuppliersRepository
 
 describe('List Supplier', () => {
   beforeEach(() => {
-    suppliersRepository = MakeAllRepositories.SuppliersRepository
+    suppliersRepository = MakeAllRepositories.materials.SuppliersRepository
     listSuppliers = container.resolve(ListSuppliers)
   })
 

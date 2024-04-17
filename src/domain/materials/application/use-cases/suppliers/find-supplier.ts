@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { Supplier } from '../../../enterprise/entities/supplier'
 import { inject, injectable } from 'tsyringe'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 
 interface FindSupplierRequest {
   id: string

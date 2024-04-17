@@ -1,21 +1,21 @@
-import { FeedStockRepository } from '@/domain/materials/application/repositories/feed-stock-repository'
+import { FeedStocksRepository } from '@/domain/materials/application/repositories/feed-stocks-repository'
 import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { CreateFeedStock } from './create-feed-stock'
 import { container } from 'tsyringe'
-import { makeFeedStock } from 'test/factories/make-feed-stock'
-import { makeSupplier } from 'test/factories/make-supplier'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { makeFeedStock } from 'test/factories/materials/make-feed-stock'
+import { makeSupplier } from 'test/factories/materials/make-supplier'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
 
 let createFeedStock: CreateFeedStock
-let feedstockRepository: FeedStockRepository
+let feedstockRepository: FeedStocksRepository
 let suppliersRepository: SuppliersRepository
 
 describe('Create FeedStock', () => {
   beforeEach(() => {
-    feedstockRepository = MakeAllRepositories.FeedStockRepository
-    suppliersRepository = MakeAllRepositories.SuppliersRepository
+    feedstockRepository = MakeAllRepositories.materials.FeedStocksRepository
+    suppliersRepository = MakeAllRepositories.materials.SuppliersRepository
     createFeedStock = container.resolve(CreateFeedStock)
   })
 

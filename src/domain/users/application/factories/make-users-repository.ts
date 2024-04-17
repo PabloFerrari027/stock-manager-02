@@ -1,7 +1,7 @@
 import { container, injectable } from 'tsyringe'
 import { UsersRepository } from '../repositories/users-repository'
 import { NotImplementedError } from '@/core/errors/not-implemented-error'
-import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
+import { InMemoryUsersRepository } from 'test/repositories/users/in-memory-users-repository'
 
 interface MakeUsersRepositoryProps {
   stage: 'in memory' | 'database'

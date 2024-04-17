@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { FeedStock } from '../../../enterprise/entities/feed-stock'
 import { inject, injectable } from 'tsyringe'
-import { FeedStockRepository } from '../../repositories/feed-stock-repository'
+import { FeedStocksRepository } from '../../repositories/feed-stocks-repository'
 
 interface FindFeedStockRequest {
   id: string
@@ -17,8 +17,8 @@ type FindFeedStockResponse = Either<
 @injectable()
 export class FindFeedStock {
   constructor(
-    @inject('FeedStockRepository')
-    private feedstockRepository: FeedStockRepository,
+    @inject('FeedStocksRepository')
+    private feedstockRepository: FeedStocksRepository,
   ) {}
 
   async execute(data: FindFeedStockRequest): Promise<FindFeedStockResponse> {

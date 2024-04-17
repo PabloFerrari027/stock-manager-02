@@ -2,7 +2,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { ListRoles } from './list-roles'
 import { container } from 'tsyringe'
-import { makeRole } from 'test/factories/make-role'
+import { makeRole } from 'test/factories/users/make-role'
 import { Role } from '../../../enterprise/entities/role'
 import { RolesRepository } from '../../repositories/roles-repository'
 import { Text } from '@/core/entities/text'
@@ -12,7 +12,7 @@ let rolesRepository: RolesRepository
 
 describe('List Role', () => {
   beforeEach(() => {
-    rolesRepository = MakeAllRepositories.RolesRepository
+    rolesRepository = MakeAllRepositories.users.RolesRepository
     listRoles = container.resolve(ListRoles)
   })
 

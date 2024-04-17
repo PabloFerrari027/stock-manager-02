@@ -2,7 +2,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { ListUsers } from './list-users'
 import { container } from 'tsyringe'
-import { makeUser } from 'test/factories/make-user'
+import { makeUser } from 'test/factories/users/make-user'
 import { User } from '../../../enterprise/entities/user'
 import { UsersRepository } from '../../repositories/users-repository'
 import { Text } from '@/core/entities/text'
@@ -12,7 +12,7 @@ let usersRepository: UsersRepository
 
 describe('List User', () => {
   beforeEach(() => {
-    usersRepository = MakeAllRepositories.UsersRepository
+    usersRepository = MakeAllRepositories.users.UsersRepository
     listUsers = container.resolve(ListUsers)
   })
 

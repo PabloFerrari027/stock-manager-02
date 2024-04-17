@@ -5,11 +5,11 @@ import { CreateUser } from './create-user'
 import { container } from 'tsyringe'
 import { faker } from '@faker-js/faker'
 import { UsersRepository } from '../../repositories/users-repository'
-import { makeRole } from 'test/factories/make-role'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeRole } from 'test/factories/users/make-role'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { RolesRepository } from '../../repositories/roles-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
-import { makeUser } from 'test/factories/make-user'
+import { makeUser } from 'test/factories/users/make-user'
 import { AlreadyExistsError } from '@/core/errors/already-exists-error'
 import { Text } from '@/core/entities/text'
 
@@ -20,9 +20,9 @@ let rolesRepository: RolesRepository
 
 describe('Create User', () => {
   beforeEach(() => {
-    usersRepository = MakeAllRepositories.UsersRepository
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
-    rolesRepository = MakeAllRepositories.RolesRepository
+    usersRepository = MakeAllRepositories.users.UsersRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
+    rolesRepository = MakeAllRepositories.users.RolesRepository
     createUser = container.resolve(CreateUser)
   })
 

@@ -28,7 +28,7 @@ export class CreateUser {
   constructor(
     @inject('UsersRepository')
     private usersRepository: UsersRepository,
-    @inject('DepartmentsRepository')
+    @inject('UsersDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
     @inject('RolesRepository')
     private rolesRepository: RolesRepository,

@@ -4,7 +4,7 @@ import { describe, it, beforeEach } from 'vitest'
 import { CreateDepartment } from './create-department'
 import { container } from 'tsyringe'
 import { faker } from '@faker-js/faker'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { AlreadyExistsError } from '@/core/errors/already-exists-error'
 import { Text } from '@/core/entities/text'
 
@@ -13,8 +13,7 @@ let departmentsRepository: DepartmentsRepository
 
 describe('Create Department', () => {
   beforeEach(() => {
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
     createDepartment = container.resolve(CreateDepartment)
   })
 

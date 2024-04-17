@@ -2,7 +2,7 @@ import { Either, right } from '@/core/either'
 import { Supplier } from '../../../enterprise/entities/supplier'
 import { Text } from '@/core/entities/text'
 import { inject, injectable } from 'tsyringe'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 
 interface CreateSupplierRequest {
   name: string

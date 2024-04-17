@@ -1,9 +1,9 @@
-import { SuppliersRepository } from '@/domain/materials/application/repositories/supplier-repository'
+import { SuppliersRepository } from '@/domain/materials/application/repositories/suppliers-repository'
 import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { UpdateSupplier } from './update-supplier'
 import { container } from 'tsyringe'
-import { makeSupplier } from 'test/factories/make-supplier'
+import { makeSupplier } from 'test/factories/materials/make-supplier'
 import { NotFoundError } from '@/core/errors/not-found-error'
 import { Text } from '@/core/entities/text'
 import { faker } from '@faker-js/faker'
@@ -13,7 +13,7 @@ let suppliersRepository: SuppliersRepository
 
 describe('Update Supplier', () => {
   beforeEach(() => {
-    suppliersRepository = MakeAllRepositories.SuppliersRepository
+    suppliersRepository = MakeAllRepositories.materials.SuppliersRepository
     updateSupplier = container.resolve(UpdateSupplier)
   })
 
@@ -36,6 +36,15 @@ describe('Update Supplier', () => {
     )
 
     expect(getSupplier?.name.value).toEqual(name)
+  })
+
+  it('Should to be able to throw error if the supplier is not found', async () => {
+    const response = await updateSupplier.execute({
+      id: 'supplier-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotFoundError)
   })
 
   it('Should to be able to throw error if the supplier is not found', async () => {

@@ -2,7 +2,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { FindDepartment } from './find-department'
 import { container } from 'tsyringe'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { DepartmentsRepository } from '../../repositories/departments-repository'
 
 let findDepartment: FindDepartment
@@ -10,7 +10,7 @@ let departmentsRepository: DepartmentsRepository
 
 describe('Find Department', () => {
   beforeEach(() => {
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
     findDepartment = container.resolve(FindDepartment)
   })
 

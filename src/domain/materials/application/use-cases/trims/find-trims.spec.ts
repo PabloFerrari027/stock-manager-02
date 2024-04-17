@@ -3,14 +3,14 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { FindTrims } from './find-trims'
 import { container } from 'tsyringe'
-import { makeTrims } from 'test/factories/make-trims'
+import { makeTrims } from 'test/factories/materials/make-trims'
 
 let findTrims: FindTrims
 let trimsRepository: TrimsRepository
 
 describe('Find Trims', () => {
   beforeEach(() => {
-    trimsRepository = MakeAllRepositories.TrimsRepository
+    trimsRepository = MakeAllRepositories.materials.TrimsRepository
     findTrims = container.resolve(FindTrims)
   })
 

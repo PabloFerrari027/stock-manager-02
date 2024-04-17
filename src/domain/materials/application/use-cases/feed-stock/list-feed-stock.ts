@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { FeedStock } from '../../../enterprise/entities/feed-stock'
 import { inject, injectable } from 'tsyringe'
-import { FeedStockRepository } from '../../repositories/feed-stock-repository'
+import { FeedStocksRepository } from '../../repositories/feed-stocks-repository'
 import { PaginationParams } from '@/core/types/pagination-params'
 import { ListingResponse } from '@/core/types/listing-response'
 
@@ -12,8 +12,8 @@ type ListFeedStockResponse = Either<null, ListingResponse<FeedStock>>
 @injectable()
 export class ListFeedStock {
   constructor(
-    @inject('FeedStockRepository')
-    private feedstockRepository: FeedStockRepository,
+    @inject('FeedStocksRepository')
+    private feedstockRepository: FeedStocksRepository,
   ) {}
 
   async execute(data: ListFeedStockRequest): Promise<ListFeedStockResponse> {

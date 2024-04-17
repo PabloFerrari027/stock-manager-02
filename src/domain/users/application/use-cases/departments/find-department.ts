@@ -17,7 +17,7 @@ type FindDepartmentResponse = Either<
 @injectable()
 export class FindDepartment {
   constructor(
-    @inject('DepartmentsRepository')
+    @inject('UsersDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
   ) {}
 

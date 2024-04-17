@@ -3,7 +3,7 @@ import { Trims } from '../../../enterprise/entities/trims'
 import { Text } from '@/core/entities/text'
 import { inject, injectable } from 'tsyringe'
 import { TrimsRepository } from '../../repositories/trims-repository'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
 
 interface CreateTrimsRequest {

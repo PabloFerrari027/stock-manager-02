@@ -4,10 +4,10 @@ import { describe, it, beforeEach } from 'vitest'
 import { UpdateRole } from './update-role'
 import { container } from 'tsyringe'
 import { faker } from '@faker-js/faker'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { RolesRepository } from '../../repositories/roles-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
-import { makeRole } from 'test/factories/make-role'
+import { makeRole } from 'test/factories/users/make-role'
 import { AlreadyExistsError } from '@/core/errors/already-exists-error'
 import { Text } from '@/core/entities/text'
 
@@ -17,8 +17,8 @@ let rolesRepository: RolesRepository
 
 describe('Update Role', () => {
   beforeEach(() => {
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
-    rolesRepository = MakeAllRepositories.RolesRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
+    rolesRepository = MakeAllRepositories.users.RolesRepository
     updateRole = container.resolve(UpdateRole)
   })
 
@@ -71,6 +71,15 @@ describe('Update Role', () => {
 
     expect(response.isLeft()).toBeTruthy()
     expect(response.value).toBeInstanceOf(AlreadyExistsError)
+  })
+
+  it('Should to be able to throw error if the role is not found', async () => {
+    const response = await updateRole.execute({
+      id: 'role-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotFoundError)
   })
 
   it('Should to be able to throw error if the department is not found', async () => {

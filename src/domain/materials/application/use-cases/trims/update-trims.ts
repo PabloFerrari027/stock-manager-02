@@ -7,7 +7,7 @@ import { Text } from '@/core/entities/text'
 
 interface UpdateTrimsRequest {
   id: string
-  name: string
+  name?: string
 }
 
 type UpdateTrimsResponse = Either<
@@ -31,7 +31,7 @@ export class UpdateTrims {
       return left(new NotFoundError())
     }
 
-    trims.name = Text.create(data.name, 'Pascalcase')
+    if (data.name) trims.name = Text.create(data.name, 'Pascalcase')
 
     await this.trimsRepository.save(trims)
 

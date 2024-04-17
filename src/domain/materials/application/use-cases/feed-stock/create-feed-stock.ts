@@ -2,8 +2,8 @@ import { Either, left, right } from '@/core/either'
 import { FeedStock } from '../../../enterprise/entities/feed-stock'
 import { Text } from '@/core/entities/text'
 import { inject, injectable } from 'tsyringe'
-import { FeedStockRepository } from '../../repositories/feed-stock-repository'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { FeedStocksRepository } from '../../repositories/feed-stocks-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
 
 interface CreateFeedStockRequest {
@@ -22,8 +22,8 @@ type CreateFeedStockResponse = Either<
 @injectable()
 export class CreateFeedStock {
   constructor(
-    @inject('FeedStockRepository')
-    private feedstockRepository: FeedStockRepository,
+    @inject('FeedStocksRepository')
+    private feedstockRepository: FeedStocksRepository,
     @inject('SuppliersRepository')
     private suppliersRepository: SuppliersRepository,
   ) {}

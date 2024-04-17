@@ -12,7 +12,7 @@ type ListDepartmentsResponse = Either<null, ListingResponse<Department>>
 @injectable()
 export class ListDepartments {
   constructor(
-    @inject('DepartmentsRepository')
+    @inject('UsersDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
   ) {}
 

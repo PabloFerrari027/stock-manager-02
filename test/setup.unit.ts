@@ -5,5 +5,10 @@ import { container } from 'tsyringe'
 
 beforeEach(() => {
   container.clearInstances()
-  MakeAllRepositories.execute({ globalStage: 'in memory' })
+  MakeAllRepositories.execute({
+    globalStage: 'in memory',
+    materials: {},
+    products: {},
+    users: {},
+  })
 })

@@ -3,7 +3,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { ListTrims } from './list-trims'
 import { container } from 'tsyringe'
-import { makeTrims } from 'test/factories/make-trims'
+import { makeTrims } from 'test/factories/materials/make-trims'
 import { Trims } from '../../../enterprise/entities/trims'
 import { Text } from '@/core/entities/text'
 
@@ -12,7 +12,7 @@ let trimsRepository: TrimsRepository
 
 describe('List Trims', () => {
   beforeEach(() => {
-    trimsRepository = MakeAllRepositories.TrimsRepository
+    trimsRepository = MakeAllRepositories.materials.TrimsRepository
     listTrims = container.resolve(ListTrims)
   })
 

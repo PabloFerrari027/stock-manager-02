@@ -1,7 +1,7 @@
 import { container, injectable } from 'tsyringe'
 import { RolesRepository } from '../repositories/roles-repository'
 import { NotImplementedError } from '@/core/errors/not-implemented-error'
-import { InMemoryRolesRepository } from 'test/repositories/in-memory-roles-repository'
+import { InMemoryRolesRepository } from 'test/repositories/users/in-memory-roles-repository'
 
 interface MakeRolesRepositoryProps {
   stage: 'in memory' | 'database'

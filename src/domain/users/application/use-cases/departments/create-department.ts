@@ -6,13 +6,14 @@ import { NotFoundError } from '@/core/errors/not-found-error'
 import { DepartmentsRepository } from '../../repositories/departments-repository'
 import { AlreadyExistsError } from '@/core/errors/already-exists-error'
 import { DepartmentRolesList } from '@/domain/users/enterprise/entities/department-roles-list'
+import { NotAcceptableError } from '@/core/errors/not-acceptable-error'
 
 interface CreateDepartmentRequest {
   name: string
 }
 
 type CreateDepartmentResponse = Either<
-  NotFoundError,
+  NotFoundError | NotAcceptableError,
   {
     department: Department
   }
@@ -21,7 +22,7 @@ type CreateDepartmentResponse = Either<
 @injectable()
 export class CreateDepartment {
   constructor(
-    @inject('DepartmentsRepository')
+    @inject('UsersDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
   ) {}
 

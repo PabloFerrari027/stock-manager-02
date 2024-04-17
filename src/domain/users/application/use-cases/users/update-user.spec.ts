@@ -4,11 +4,11 @@ import { describe, it, beforeEach } from 'vitest'
 import { container } from 'tsyringe'
 import { faker } from '@faker-js/faker'
 import { UsersRepository } from '../../repositories/users-repository'
-import { makeRole } from 'test/factories/make-role'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeRole } from 'test/factories/users/make-role'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { RolesRepository } from '../../repositories/roles-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
-import { makeUser } from 'test/factories/make-user'
+import { makeUser } from 'test/factories/users/make-user'
 import { UpdateUser } from './update-user'
 import { Text } from '@/core/entities/text'
 
@@ -19,9 +19,9 @@ let rolesRepository: RolesRepository
 
 describe('Update User', () => {
   beforeEach(() => {
-    usersRepository = MakeAllRepositories.UsersRepository
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
-    rolesRepository = MakeAllRepositories.RolesRepository
+    usersRepository = MakeAllRepositories.users.UsersRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
+    rolesRepository = MakeAllRepositories.users.RolesRepository
     updateUser = container.resolve(UpdateUser)
   })
 
@@ -74,6 +74,15 @@ describe('Update User', () => {
       id: user.id.toString(),
       departmentId: department.id.toString(),
       roleId: role.id.toString(),
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotFoundError)
+  })
+
+  it('Should to be able to throw error if the user is not found', async () => {
+    const response = await updateUser.execute({
+      id: 'user-1',
     })
 
     expect(response.isLeft()).toBeTruthy()

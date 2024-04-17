@@ -3,7 +3,7 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { UpdateTrims } from './update-trims'
 import { container } from 'tsyringe'
-import { makeTrims } from 'test/factories/make-trims'
+import { makeTrims } from 'test/factories/materials/make-trims'
 import { NotFoundError } from '@/core/errors/not-found-error'
 import { Text } from '@/core/entities/text'
 import { faker } from '@faker-js/faker'
@@ -13,7 +13,7 @@ let trimsRepository: TrimsRepository
 
 describe('Update Trims', () => {
   beforeEach(() => {
-    trimsRepository = MakeAllRepositories.TrimsRepository
+    trimsRepository = MakeAllRepositories.materials.TrimsRepository
     updateTrims = container.resolve(UpdateTrims)
   })
 
@@ -37,6 +37,15 @@ describe('Update Trims', () => {
     const getTrims = await trimsRepository.findById(trims.id.toString())
 
     expect(getTrims?.name.value).toEqual(name)
+  })
+
+  it('Should to be able to throw error if the trims is not found', async () => {
+    const response = await updateTrims.execute({
+      id: 'trims-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotFoundError)
   })
 
   it('Should to be able to throw error if the trims is not found', async () => {

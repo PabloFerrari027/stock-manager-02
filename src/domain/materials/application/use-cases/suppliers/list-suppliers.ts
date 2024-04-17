@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { Supplier } from '../../../enterprise/entities/supplier'
 import { inject, injectable } from 'tsyringe'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { PaginationParams } from '@/core/types/pagination-params'
 import { ListingResponse } from '@/core/types/listing-response'
 

@@ -23,7 +23,7 @@ type CreateRoleResponse = Either<
 @injectable()
 export class CreateRole {
   constructor(
-    @inject('DepartmentsRepository')
+    @inject('UsersDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
     @inject('RolesRepository')
     private rolesRepository: RolesRepository,

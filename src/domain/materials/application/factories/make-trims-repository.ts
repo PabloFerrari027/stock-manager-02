@@ -1,7 +1,7 @@
 import { container, injectable } from 'tsyringe'
 import { TrimsRepository } from '../repositories/trims-repository'
 import { NotImplementedError } from '@/core/errors/not-implemented-error'
-import { InMemoryTrimsRepository } from 'test/repositories/in-memory-trims-repository'
+import { InMemoryTrimsRepository } from 'test/repositories/materials/in-memory-trims-repository'
 
 interface MakeTrimsRepositoryProps {
   stage: 'in memory' | 'database'

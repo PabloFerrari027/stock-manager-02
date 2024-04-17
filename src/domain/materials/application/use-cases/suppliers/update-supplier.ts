@@ -1,13 +1,13 @@
 import { Either, left, right } from '@/core/either'
 import { Supplier } from '../../../enterprise/entities/supplier'
 import { inject, injectable } from 'tsyringe'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
 import { Text } from '@/core/entities/text'
 
 interface UpdateSupplierRequest {
   id: string
-  name: string
+  name?: string
 }
 
 type UpdateSupplierResponse = Either<
@@ -31,7 +31,7 @@ export class UpdateSupplier {
       return left(new NotFoundError())
     }
 
-    supplier.name = Text.create(data.name, 'Pascalcase')
+    if (data.name) supplier.name = Text.create(data.name, 'Pascalcase')
 
     await this.suppliersRepository.save(supplier)
 

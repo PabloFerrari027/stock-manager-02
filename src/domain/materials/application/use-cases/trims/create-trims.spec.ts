@@ -3,9 +3,9 @@ import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { CreateTrims } from './create-trims'
 import { container } from 'tsyringe'
-import { makeTrims } from 'test/factories/make-trims'
-import { makeSupplier } from 'test/factories/make-supplier'
-import { SuppliersRepository } from '../../repositories/supplier-repository'
+import { makeTrims } from 'test/factories/materials/make-trims'
+import { makeSupplier } from 'test/factories/materials/make-supplier'
+import { SuppliersRepository } from '../../repositories/suppliers-repository'
 import { NotFoundError } from '@/core/errors/not-found-error'
 
 let createTrims: CreateTrims
@@ -14,8 +14,8 @@ let suppliersRepository: SuppliersRepository
 
 describe('Create Trims', () => {
   beforeEach(() => {
-    trimsRepository = MakeAllRepositories.TrimsRepository
-    suppliersRepository = MakeAllRepositories.SuppliersRepository
+    trimsRepository = MakeAllRepositories.materials.TrimsRepository
+    suppliersRepository = MakeAllRepositories.materials.SuppliersRepository
     createTrims = container.resolve(CreateTrims)
   })
 

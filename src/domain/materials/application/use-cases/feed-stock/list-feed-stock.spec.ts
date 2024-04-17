@@ -1,18 +1,18 @@
-import { FeedStockRepository } from '@/domain/materials/application/repositories/feed-stock-repository'
+import { FeedStocksRepository } from '@/domain/materials/application/repositories/feed-stocks-repository'
 import { MakeAllRepositories } from '@/core/factories/make-all-repositories'
 import { describe, it, beforeEach } from 'vitest'
 import { ListFeedStock } from './list-feed-stock'
 import { container } from 'tsyringe'
-import { makeFeedStock } from 'test/factories/make-feed-stock'
+import { makeFeedStock } from 'test/factories/materials/make-feed-stock'
 import { FeedStock } from '../../../enterprise/entities/feed-stock'
 import { Text } from '@/core/entities/text'
 
 let listFeedStock: ListFeedStock
-let feedStockRepository: FeedStockRepository
+let feedStockRepository: FeedStocksRepository
 
 describe('List FeedStock', () => {
   beforeEach(() => {
-    feedStockRepository = MakeAllRepositories.FeedStockRepository
+    feedStockRepository = MakeAllRepositories.materials.FeedStocksRepository
     listFeedStock = container.resolve(ListFeedStock)
   })
 

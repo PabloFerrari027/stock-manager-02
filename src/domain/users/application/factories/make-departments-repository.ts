@@ -1,7 +1,7 @@
 import { container, injectable } from 'tsyringe'
 import { DepartmentsRepository } from '../repositories/departments-repository'
 import { NotImplementedError } from '@/core/errors/not-implemented-error'
-import { InMemoryDepartmentsRepository } from 'test/repositories/in-memory-departments-repository'
+import { InMemoryDepartmentsRepository } from 'test/repositories/users/in-memory-departments-repository'
 
 interface MakeDepartmentsRepositoryProps {
   stage: 'in memory' | 'database'
@@ -14,14 +14,14 @@ export class MakeDepartmentsRepository {
       case 'in memory': {
         const repository = container.resolve(InMemoryDepartmentsRepository)
 
-        container.registerInstance('DepartmentsRepository', repository)
+        container.registerInstance('UsersDepartmentsRepository', repository)
 
         return repository
       }
 
       case 'database': {
         container.register(
-          'DepartmentsRepository',
+          'UsersDepartmentsRepository',
           InMemoryDepartmentsRepository,
         )
 

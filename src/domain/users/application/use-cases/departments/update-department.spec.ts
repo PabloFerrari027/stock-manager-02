@@ -4,16 +4,17 @@ import { describe, it, beforeEach } from 'vitest'
 import { UpdateDepartment } from './update-department'
 import { container } from 'tsyringe'
 import { faker } from '@faker-js/faker'
-import { makeDepartment } from 'test/factories/make-department'
+import { makeDepartment } from 'test/factories/users/make-department'
 import { AlreadyExistsError } from '@/core/errors/already-exists-error'
 import { Text } from '@/core/entities/text'
+import { NotFoundError } from '@/core/errors/not-found-error'
 
 let updateDepartment: UpdateDepartment
 let departmentsRepository: DepartmentsRepository
 
 describe('Update Department', () => {
   beforeEach(() => {
-    departmentsRepository = MakeAllRepositories.DepartmentsRepository
+    departmentsRepository = MakeAllRepositories.users.DepartmentsRepository
     updateDepartment = container.resolve(UpdateDepartment)
   })
 
@@ -34,6 +35,15 @@ describe('Update Department', () => {
     const { data } = await departmentsRepository.list({})
 
     expect(data[0].name.value).toEqual(name)
+  })
+
+  it('Should to be able to throw error if the department is not found', async () => {
+    const response = await updateDepartment.execute({
+      id: 'department-1',
+    })
+
+    expect(response.isLeft()).toBeTruthy()
+    expect(response.value).toBeInstanceOf(NotFoundError)
   })
 
   it('Should to be able to throw error if the name already exists', async () => {
