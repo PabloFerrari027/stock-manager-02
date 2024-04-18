@@ -35,7 +35,7 @@ export class CreateType {
   async execute(data: CreateTypeRequest): Promise<CreateTypeResponse> {
     const prefixIsValid = SKU.prefixIsValid(data.SKUPrefix)
 
-    if (prefixIsValid) {
+    if (!prefixIsValid) {
       const message = `Prefix ${data.SKUPrefix} does not meet standards!`
       return left(new NotAcceptableError(message))
     }

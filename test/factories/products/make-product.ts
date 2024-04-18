@@ -33,15 +33,14 @@ export class makeProduct {
   static execute(props: MakeProductProps, id?: UniqueEntityID) {
     const name = props.name ?? Text.create(faker.company.name(), 'Pascalcase')
 
-    const year = new Date().getFullYear().toString().substring(0, 2)
-
     const sku =
       props.SKU ??
       SKU.create({
-        department: 'M',
+        categoryId: new UniqueEntityID(),
+        departmentId: new UniqueEntityID(),
+        lineId: new UniqueEntityID(),
         prefix: faker.science.chemicalElement().symbol,
         sequential: faker.number.int(),
-        year,
       })
 
     const cover =
@@ -52,15 +51,9 @@ export class makeProduct {
         slug: Text.create(faker.lorem.sentence({ min: 10, max: 20 }), 'Slug'),
       })
 
-    const categoryId = props.categoryId ?? new UniqueEntityID()
-
-    const departmentId = props.departmentId ?? new UniqueEntityID()
-
     const gridId = props.gridId ?? new UniqueEntityID()
 
     const levelId = props.levelId ?? new UniqueEntityID()
-
-    const lineId = props.lineId ?? new UniqueEntityID()
 
     const typeId = props.typeId ?? new UniqueEntityID()
 
@@ -82,11 +75,8 @@ export class makeProduct {
       {
         name,
         SKU: sku,
-        categoryId,
-        departmentId,
         gridId,
         levelId,
-        lineId,
         trims,
         typeId,
         attachments,

@@ -5,11 +5,6 @@ import { Text } from '@/core/entities/text'
 import { inject, injectable } from 'tsyringe'
 import { NotFoundError } from '@/core/errors/not-found-error'
 import { ProductsRepository } from '../../repositories/products-repository'
-import { AlreadyExistsError } from '@/core/errors/already-exists-error'
-import { DepartmentsRepository } from '../../repositories/departments-repository'
-import { LinesRepository } from '../../repositories/lines-repository'
-import { CategoriesRepository } from '../../repositories/categories-repository'
-import { TypesRepository } from '../../repositories/types-repository'
 import { GridsRepository } from '../../repositories/grids-repository'
 import { LevelsRepository } from '../../repositories/levels-repository'
 import { SKU } from '@/domain/products/enterprise/entities/SKU'
@@ -24,18 +19,22 @@ import { NotAcceptableError } from '@/core/errors/not-acceptable-error'
 import { VariationsRepository } from '../../repositories/variations-repository'
 import { Variation } from '@/domain/products/enterprise/entities/variation'
 import { ProductVariation } from '@/domain/products/enterprise/entities/product-variation'
+import { SKURepository } from '../../repositories/SKU-repository'
+import { DepartmentsRepository } from '../../repositories/departments-repository'
+import { LinesRepository } from '../../repositories/lines-repository'
+import { CategoriesRepository } from '../../repositories/categories-repository'
+import { TypesRepository } from '../../repositories/types-repository'
 
 interface CreateProductRequest {
   name: string
-  SKU?: string
-  collectionIds: string[]
   departmentId: string
   lineId: string
   categoryId: string
   typeId: string
   gridId: string
   levelId: string
-  variation: number
+  variation?: number | null
+  collectionIds: string[]
 }
 
 type CreateProductResponse = Either<
@@ -48,13 +47,7 @@ type CreateProductResponse = Either<
 @injectable()
 export class CreateProduct {
   constructor(
-    @inject('ProductsRepository')
-    private productsRepository: ProductsRepository,
-    @inject('VariationsRepository')
-    private variationsRepository: VariationsRepository,
-    @inject('CollectionsRepository')
-    private collectionsRepository: CollectionsRepository,
-    @inject('ProductsDepartmentsRepository')
+    @inject('SKUDepartmentsRepository')
     private departmentsRepository: DepartmentsRepository,
     @inject('LinesRepository')
     private linesRepository: LinesRepository,
@@ -62,44 +55,35 @@ export class CreateProduct {
     private categoriesRepository: CategoriesRepository,
     @inject('TypesRepository')
     private typesRepository: TypesRepository,
+    @inject('ProductsRepository')
+    private productsRepository: ProductsRepository,
+    @inject('SKURepository')
+    private SKURepository: SKURepository,
+    @inject('VariationsRepository')
+    private variationsRepository: VariationsRepository,
+    @inject('CollectionsRepository')
+    private collectionsRepository: CollectionsRepository,
     @inject('GridsRepository')
     private gridsRepository: GridsRepository,
     @inject('LevelsRepository')
     private levelsRepository: LevelsRepository,
   ) {}
 
-  private async generateSequentialByType(id: string): Promise<number> {
-    const lastProductOfType = await this.productsRepository.listByType(id, {
+  private async generateSequentialByCategory(id: string): Promise<number> {
+    const lastSKUOfType = await this.SKURepository.listByType(id, {
       order: 'desc',
       orderBy: 'createdAt',
       take: 1,
     })
 
-    if (!lastProductOfType.data[0]) return 1
+    if (!lastSKUOfType.data[0]) return 1
 
-    const sequential = lastProductOfType.data[0].SKU.sequential
+    const sequential = lastSKUOfType.data[0].sequential
 
     return sequential + 1
   }
 
   async execute(data: CreateProductRequest): Promise<CreateProductResponse> {
-    if (data.SKU) {
-      const isValid = SKU.isValid(data.SKU)
-
-      if (isValid) {
-        const message = `SKU ${SKU} does not meet standards!`
-        return left(new NotAcceptableError(message))
-      }
-
-      const getBySKU = await this.productsRepository.findBySKU(data.SKU)
-
-      if (getBySKU) {
-        const message = `SKU ${data.SKU} already exists!`
-
-        return left(new AlreadyExistsError(message))
-      }
-    }
-
     const departmet = await this.departmentsRepository.findById(
       data.departmentId,
     )
@@ -110,44 +94,35 @@ export class CreateProduct {
 
     const type = await this.typesRepository.findById(data.typeId)
 
-    const grid = await this.gridsRepository.findById(data.gridId)
-
-    const level = await this.levelsRepository.findById(data.levelId)
-
-    if (!departmet || !line || !category || !type || !grid || !level) {
+    if (!departmet || !line || !category || !type) {
       return left(new NotFoundError())
     }
 
-    const sequential = await this.generateSequentialByType(type.id.toString())
+    let sequential = await this.generateSequentialByCategory(type.id.toString())
 
-    let sku: SKU
+    const variation = data.variation
 
-    if (data.SKU) {
-      const prefix = data.SKU.substring(0, 2)
+    const sku = SKU.create({
+      categoryId: category.id,
+      typeId: type.id,
+      departmentId: departmet.id,
+      lineId: line.id,
+      prefix: type.SKUPrefix,
+      sequential,
+      variation,
+    })
 
-      const chunk = data.SKU.split('.')
+    await this.SKURepository.create(sku)
+    const grid = await this.gridsRepository.findById(data.gridId)
 
-      const sequential = Number(data.SKU.substring(2, chunk[0].length))
+    if (!grid) {
+      return left(new NotFoundError())
+    }
 
-      const variation = Number(chunk[2].split('-')[0]) ?? null
+    const level = await this.levelsRepository.findById(data.levelId)
 
-      sku = SKU.create({
-        categoryId: category.id,
-        departmentId: departmet.id,
-        lineId: line.id,
-        prefix,
-        sequential,
-        variation,
-      })
-    } else {
-      sku = SKU.create({
-        categoryId: category.id,
-        departmentId: departmet.id,
-        lineId: line.id,
-        prefix: type.SKUPrefix,
-        sequential,
-        variation: data.variation,
-      })
+    if (!level) {
+      return left(new NotFoundError())
     }
 
     const productId = new UniqueEntityID()
@@ -181,6 +156,7 @@ export class CreateProduct {
         sequential: sku.sequential,
         variation: sku.variation,
         categoryId: sku.categoryId,
+        typeId: sku.typeId,
         departmentId: sku.departmentId,
         lineId: sku.lineId,
         size,
@@ -215,7 +191,6 @@ export class CreateProduct {
         gridId: grid.id,
         levelId: level.id,
         SKU: sku,
-        typeId: type.id,
         collections,
         variations,
         attachments: new ProductAttachmentsList(),

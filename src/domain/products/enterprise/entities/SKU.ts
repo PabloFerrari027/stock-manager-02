@@ -3,9 +3,6 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface SKUProps {
-  departmentId: UniqueEntityID
-  lineId: UniqueEntityID
-  categoryId: UniqueEntityID
   prefix: string
   sequential: number
   variation?: number | null
@@ -45,18 +42,6 @@ export class SKU extends Entity<SKUProps> {
   get size() {
     const size = this.props.size
     return size
-  }
-
-  get categoryId() {
-    return this.props.categoryId
-  }
-
-  get departmentId() {
-    return this.props.departmentId
-  }
-
-  get lineId() {
-    return this.props.lineId
   }
 
   get createdAt() {

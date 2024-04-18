@@ -11,12 +11,11 @@ import { ProductAttachmentsList } from './product-attachments-list'
 import { Optional } from '@/core/types/optional'
 
 export interface ProductProps {
-  name: Text
   SKU: SKU
+  name: Text
   isActive: boolean
-  typeId: UniqueEntityID
-  gridId: UniqueEntityID
   levelId: UniqueEntityID
+  typeId: UniqueEntityID
   cover: Cover | null
   attachments: ProductAttachmentsList
   trims: ProductTrimsList
@@ -58,10 +57,6 @@ export class Product extends Entity<ProductProps> {
 
   get typeId() {
     return this.props.typeId
-  }
-
-  get gridId() {
-    return this.props.gridId
   }
 
   get levelId() {
@@ -107,11 +102,6 @@ export class Product extends Entity<ProductProps> {
 
   set typeId(value: UniqueEntityID) {
     this.props.typeId = value
-    this.touch()
-  }
-
-  set gridId(value: UniqueEntityID) {
-    this.props.gridId = value
     this.touch()
   }
 
